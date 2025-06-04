@@ -21,36 +21,79 @@
     margin-bottom: 35px;
 }
 
-button{
-    padding-top: 0.25rem;
-    padding-bottom: 0.25rem;
-    padding-right: 0.75rem;
-    padding-left: 0.75rem;
-    margin-right: 0.5rem;
-    margin-left: 0.1rem;
-    font-size: 16px;
-    background-color: #ffffff;
-    color: #000000;
-    border: 1px solid rgba(49, 51, 63, 0.2);
-    border-radius: 0.25rem;
-    margin-top: 0.75rem;
-    margin-bottom: 0.25rem;
+.recorder-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
 }
 
-button:hover{
-    padding-top: 0.25rem;
-    padding-bottom: 0.25rem;
-    padding-right: 0.75rem;
-    padding-left: 0.75rem;
-    margin-right: 0.5rem;
-    margin-left: 0.1rem;
-    font-size: 16px;
-    background-color: #ffffff;
-    color: #ff4c4b;
-    border: 1px solid #ff4c4b;
-    border-radius: 0.25rem;
-    margin-top: 0.75rem;
-    margin-bottom: 0.25rem;
+.recorder-container > div {
+  width: 100%;
+  max-width: 800px;
+  text-align: center;
+}
+
+/* Estilo responsive para botones */
+.recorder-container button {
+  width: 100%;
+  max-width: 180px;
+  margin: 6px;
+}
+
+/* Adaptación para pantallas pequeñas */
+@media screen and (max-width: 480px) {
+  .recorder-container button {
+    font-size: 14px;
+    padding: 8px 14px;
+    max-width: 100%;
+  }
+}
+
+button {
+  font-size: 16px;
+  font-weight: 600;
+  padding: 10px 20px;
+  margin: 6px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  color: #000;
+}
+
+#record,
+#stop,
+#reset {
+  background-color: #E9F470;
+  color: #32323E;
+}
+
+#record:hover,
+#stop:hover,
+#reset:hover {
+  background-color: #D1E327;
+  color: #32323E;
+}
+
+#continue {
+  background-color: #7090F4;
+  color: white;
+}
+
+#continue:hover {
+  background-color: #757ad3;
+  color: white;
+}
+
+button:disabled {
+  background-color: #ccc !important;
+  color: #666 !important;
+  cursor: not-allowed;
+  transform: none !important;
 }
 
 audio {
