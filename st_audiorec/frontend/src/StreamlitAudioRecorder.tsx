@@ -13,10 +13,17 @@ interface State {
   recordState: null
   audioDataURL: string
   reset: boolean
+  isRecording: boolean
 }
 
 class StAudioRec extends StreamlitComponentBase<State> {
-  public state = { isFocused: false, recordState: null, audioDataURL: '', reset: false}
+  public state = {
+    isFocused: false, 
+    recordState: null, 
+    audioDataURL: '', 
+    reset: false,
+    isRecording: false
+  }
 
   public render = (): ReactNode => {
     // Arguments that are passed to the plugin in Python are accessible
@@ -41,37 +48,41 @@ class StAudioRec extends StreamlitComponentBase<State> {
 
     return (
       <span>
-        <div>
-          <button id='record' onClick={this.onClick_start}>
-            Start Recording
-          </button>
-          <button id='stop' onClick={this.onClick_stop}>
-            Stop
-          </button>
-          <button id='reset' onClick={this.onClick_reset}>
-            Reset
-          </button>
+        <div className="recorder-container">
+          <div>
+            <button id='record' disabled={this.state.isRecording} onClick={this.onClick_start}>
+              Iniciar
+            </button>
+            
+            <button id='stop' disabled={!this.state.isRecording} onClick={this.onClick_stop}>
+              Detener
+            </button>
+            
+            <button id='reset' onClick={this.onClick_reset}>
+              Reiniciar
+            </button>
 
-          <button id='continue' onClick={this.onClick_continue}>
-            Download
-          </button>
+            <button id='continue' disabled={!this.state.audioDataURL} onClick={this.onClick_continue}>
+              Descargar
+            </button>
 
-          <AudioReactRecorder
-            state={recordState}
-            onStop={this.onStop_audio}
-            type='audio/wav'
-            backgroundColor='rgb(255, 255, 255)'
-            foregroundColor='rgb(255,76,75)'
-            canvasWidth={450}
-            canvasHeight={100}
-          />
+            <AudioReactRecorder
+              state={recordState}
+              onStop={this.onStop_audio}
+              type='audio/wav'
+              backgroundColor='rgb(255, 255, 255)'
+              foregroundColor='rgb(255,76,75)'
+              canvasWidth={Math.min(window.innerWidth * 0.9, 800)}
+              canvasHeight={100}
+            />
 
-          <audio
-            id='audio'
-            controls
-            src={this.state.audioDataURL}
-          />
+            <audio
+              id='audio'
+              controls
+              src={this.state.audioDataURL}
+            />
 
+          </div>
         </div>
       </span>
     )
@@ -82,7 +93,8 @@ class StAudioRec extends StreamlitComponentBase<State> {
     this.setState({
       reset: false,
       audioDataURL: '',
-      recordState: RecordState.START
+      recordState: RecordState.START,
+      isRecording: true
     })
     Streamlit.setComponentValue('')
   }
@@ -90,7 +102,8 @@ class StAudioRec extends StreamlitComponentBase<State> {
   private onClick_stop = () => {
     this.setState({
       reset: false,
-      recordState: RecordState.STOP
+      recordState: RecordState.STOP,
+      isRecording: false
     })
   }
 
@@ -98,7 +111,8 @@ class StAudioRec extends StreamlitComponentBase<State> {
     this.setState({
       reset: true,
       audioDataURL: '',
-      recordState: RecordState.STOP
+      recordState: RecordState.STOP,
+      isRecording: false
     })
     Streamlit.setComponentValue('')
   }
